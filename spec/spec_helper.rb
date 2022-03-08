@@ -1,7 +1,5 @@
 require 'open3'
 require 'rack/test'
-require 'pry'
-require 'pry-byebug'
 require 'timecop'
 require 'thread'
 

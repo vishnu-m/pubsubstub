@@ -44,7 +44,7 @@ describe Pubsubstub::StreamAction do
     with_background_server do
       expect(9292).to listen.in_under(5)
 
-      chunks = async_get('http://localhost:9292/?channels[]=foo', 'Last-Event-Id' => '0')
+      chunks = async_get('http://localhost:9292/?channels[]=foo', { 'Last-Event-Id' => '0' })
       expect(chunks.pop).to include("event: heartbeat\n")
 
       Pubsubstub.publish('foo', 'bar', id: 1)
@@ -61,7 +61,7 @@ describe Pubsubstub::StreamAction do
     with_background_server do
       expect(9292).to listen.in_under(5)
 
-      chunks = async_get('http://localhost:9292/?channels[]=foo', 'Last-Event-Id' => '0')
+      chunks = async_get('http://localhost:9292/?channels[]=foo', { 'Last-Event-Id' => '0' })
       expect(chunks.pop).to include("id: 1\n")
 
       Pubsubstub.publish('foo', 'baz', id: 2)
