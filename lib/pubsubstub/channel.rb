@@ -13,11 +13,11 @@ module Pubsubstub
     end
 
     def publish(event)
-      redis.pipelined do
-        redis.zadd(scrollback_key, event.id, event.to_json)
-        redis.zremrangebyrank(scrollback_key, 0, -Pubsubstub.channels_scrollback_size)
-        redis.expire(scrollback_key, Pubsubstub.channels_scrollback_ttl)
-        redis.publish(pubsub_key, event.to_json)
+      redis.pipelined do |pipeline|
+        pipeline.zadd(scrollback_key, event.id, event.to_json)
+        pipeline.zremrangebyrank(scrollback_key, 0, -Pubsubstub.channels_scrollback_size)
+        pipeline.expire(scrollback_key, Pubsubstub.channels_scrollback_ttl)
+        pipeline.publish(pubsub_key, event.to_json)
       end
     end
 
