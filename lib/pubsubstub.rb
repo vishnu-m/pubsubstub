@@ -38,6 +38,10 @@ module Pubsubstub
       @redis || synchronize { @redis ||= new_redis }
     end
 
+    def redis=(client)
+      synchronize { @redis = client }
+    end
+
     def new_redis
       Redis.new(url: redis_url)
     end
